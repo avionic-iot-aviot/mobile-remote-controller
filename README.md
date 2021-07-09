@@ -1,4 +1,4 @@
-# Remote Controller
+# Mobile Remote Controller
 Remote controller app (Android and iOS) for drones pilotage.
 
 
@@ -13,7 +13,7 @@ To be able to run this code you need to have installed:
 
 # Install
 
-Run:
+Run the following command:
 
 ```bash
 yarn
