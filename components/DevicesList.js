@@ -35,7 +35,7 @@ export default function DevicesList(props) {
     );
   };
 
-  useEffect(() => {
+  const getDevices = () => {
     fetch(`https://${props.namespace}.aviot.it/dbapp/frontend/getAllDevices`)
       .then(res => res.json())
       .then(resjson => {
@@ -43,6 +43,10 @@ export default function DevicesList(props) {
         setData(filteredItems);
       })
       .catch(error => console.error(error));
+  };
+
+  useEffect(() => {
+    getDevices();
   }, []);
   return (
     <SafeAreaView style={styles.container}>
@@ -52,6 +56,9 @@ export default function DevicesList(props) {
         renderItem={renderItem}
         extraData={selectedDevice}
       />
+      <View style={styles.button}>
+        <Button title="Refresh" onPress={getDevices} />
+      </View>
       <View style={styles.button}>
         <Button title="Back to namespace" onPress={props.returnToNamespace} />
       </View>
