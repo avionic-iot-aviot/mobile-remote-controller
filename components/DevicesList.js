@@ -8,7 +8,12 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-
+/**
+ * Creates a scrollable list of devices containing the word "fccs" and a button to return to the view where
+ * is possible to choose the namespace.
+ * @param {*} props Contains the "namespace" properties and two methods: sendSelectedDevice and returnToNamespace.
+ * @returns {Component} DeviceList
+ */
 export default function DevicesList(props) {
   const [data, setData] = useState([]);
   const [selectedDevice, setSelectedDevice] = useState(null);

@@ -6,6 +6,12 @@ const services_ports = {
     'protezionecivile': 30001
 }
 
+/**
+ * Creates a view where it is possible to pilot a drone. This view has many buttons that send UDP datagrams
+ * to the cluster wss.
+ * @param {*} props Contains the property "namespace", the UDP socket instance, the selected "device" and the method returnToList.
+ * @returns {Component} RemoteController
+ */
 export default function RemoteController(props) {
     const [socket, setData] = useState(props.socket);
     const [serverReply, setServerReply] = useState('Connected');
