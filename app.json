@@ -1,0 +1,21 @@
+{
+  "name": "udp-app",
+  "displayName": "udp-app",
+  "expo": {
+    "name": "udp-app",
+    "slug": "udp-app",
+    "version": "1.0.0",
+    "sdkVersion": "41.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.marco_cavalli.udpapp"
+    },
+    "ios": {
+      "bundleIdentifier": "udpapp"
+    }
+  }
+}
