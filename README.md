@@ -48,3 +48,12 @@ yarn run android
 The first shell starts the local "server" and allows you to check the logs and reload the app on your device.
 
 The second shell compile the Java code (generated from the javascript code) and runs a command to install an app on your device. You need to accept if prompted. Once completed the app will be running on your device.
+
+
+# Notes
+
+If after running "yarn run android" you receive an error displaying that Gradle *.* is deprecated try this command to fix it:
+
+```bash
+cd android && ./gradlew clean
+```
