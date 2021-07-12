@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, StyleSheet, Text, TextInput } from 'react-native';
+import { View, Button, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 
 const services_ports = {
     'agri': 30000,
@@ -39,7 +39,7 @@ export default function RemoteController(props) {
 
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.align_center}>
                 <Text style={styles.title}>{props.device.current_name}</Text>
             </View>
@@ -47,41 +47,64 @@ export default function RemoteController(props) {
                 <Text>Reply from server</Text>
                 <Text>{serverReply}</Text>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <TextInput onChangeText={new_text => setText(new_text)} style={styles.input}></TextInput>
-                <View style={{ width: "33%", marginTop: 2 }}>
-                    <Button title="Send" onPress={() => sendPacket(text)} />
-                </View>
-            </View>
             <View style={{ marginTop: 15 }}>
                 <Button title="SET MODE" onPress={() => sendPacket('set_mode')} />
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="ARM" onPress={() => sendPacket('arming')} />
                 </View>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="LAND" onPress={() => sendPacket('land')} />
                 </View>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="TAKE-OFF" onPress={() => sendPacket('takeoff')} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="SET" onPress={() => sendPacket('set')} />
                 </View>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="DELETE" onPress={() => sendPacket('delete')} />
                 </View>
-                <View style={styles.rowButtons}>
+                <View style={styles.row_buttons}>
                     <Button title="RESET" onPress={() => sendPacket('reset')} />
                 </View>
             </View>
+            <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
+                <View style={styles.row_buttons}>
+                    <Button title="UP" onPress={() => sendPacket('delete')} />
+                </View>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={[styles.row_buttons, styles.left_row_button]}>
+                    <Button title="LEFT" onPress={() => sendPacket('set')} />
+                </View>
+                <View style={[styles.row_buttons, styles.right_row_button]}>
+                    <Button title="RIGHT" onPress={() => sendPacket('reset')} />
+                </View>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
+                <View style={styles.row_buttons}>
+                    <Button title="DOWN" onPress={() => sendPacket('delete')} />
+                </View>
+            </View>
+            <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <View style={[styles.row_buttons, styles.left_row_button]}>
+                    <Button title="FORWARD" onPress={() => sendPacket('set')} />
+                </View>
+                <View style={[styles.row_buttons, styles.right_row_button]}>
+                    <Button title="BACKWARD" onPress={() => sendPacket('reset')} />
+                </View>
+            </View>
+
+            <View style={{marginBottom: 30}} />
+
             <View style={styles.button}>
                 <Button title="Back to list" onPress={props.returnToList} />
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -90,8 +113,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         //alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
+        //justifyContent: 'center',
+        marginTop: -20,
     },
     align_center: {
         alignItems: 'center',
@@ -105,7 +128,7 @@ const styles = StyleSheet.create({
         width: "66%",
         borderWidth: 1,
     },
-    rowButtons: {
+    row_buttons: {
         width: "33%",
         marginRight: 1,
     },
@@ -113,5 +136,13 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 10,
         marginBottom: 10
-    }
+    },
+    left_row_button: {
+        left: 0,
+        position: "relative",
+    },
+    right_row_button: {
+        right: 0,
+        position: "absolute",
+    },
 });
