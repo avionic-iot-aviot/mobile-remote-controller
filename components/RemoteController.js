@@ -21,10 +21,13 @@ export default function RemoteController(props) {
     const [altitude, setAltitude] = useState(0);
     const [direction, setDirection] = useState({x: 0,y: 0,z: 0,_x: 0,_y: 0,_z: 0}); // first three are linear directions, last three are radial directions
 
-
-    const sendPacket = (command) => {
+    /**
+     * Sends a datagram containing a message passed as property.
+     * @param {*} msg 
+     */
+    const sendPacket = (msg) => {
         try {
-            socket.send(`${command}`, undefined, undefined, services_ports[props.namespace], `udp.${props.namespace}.aviot.it`, function (err) {
+            socket.send(`${msg}`, undefined, undefined, services_ports[props.namespace], `udp.${props.namespace}.aviot.it`, function (err) {
                 if (err) throw err
                 console.log('Message sent!')
             });
@@ -41,6 +44,11 @@ export default function RemoteController(props) {
         setServerReply('Received ' + str + ' ' + JSON.stringify(rinfo));
     });
 
+    /**
+     * Send a datagram containing a message that is a json with two fields:
+     * @param {*} event String referring to which event/action must be triggered
+     * @param {*} data Json containing the needed data for the specified event
+     */
     const emitEvent = (event, data) => {
         const dgram_msg = {
             event,
@@ -49,6 +57,11 @@ export default function RemoteController(props) {
         sendPacket(JSON.stringify(dgram_msg));
     };
 
+    /**
+     * Allows to specify the drone's velocity and its movements direction.
+     * @param {*} key String named as one of the linear axis (x,y,z) or radial axis (_x,_y,_z). If null is passed, it means that the drone must stop.
+     * @param {*} value Float value for the speed
+     */
     const moveDrone = (key, value) => {
         var newDirection = {x: 0,y: 0,z: 0,_x: 0,_y: 0,_z: 0};
         if(key) {
