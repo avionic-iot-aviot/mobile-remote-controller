@@ -16,11 +16,15 @@ export default function RemoteController(props) {
     const [socket, setData] = useState(props.socket);
     const [serverReply, setServerReply] = useState('Connected');
     const [text, setText] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [altitude, setAltitude] = useState(0);
+    const [direction, setDirection] = useState({x: 0,y: 0,z: 0,_x: 0,_y: 0,_z: 0}); // first three are linear directions, last three are radial directions
 
 
     const sendPacket = (command) => {
         try {
-            socket.send(`${command}`, undefined, undefined, services_ports[props.namespace], `${props.namespace}.udp.aviot.it`, function (err) {
+            socket.send(`${command}`, undefined, undefined, services_ports[props.namespace], `udp.${props.namespace}.aviot.it`, function (err) {
                 if (err) throw err
                 console.log('Message sent!')
             });
@@ -37,6 +41,24 @@ export default function RemoteController(props) {
         setServerReply('Received ' + str + ' ' + JSON.stringify(rinfo));
     });
 
+    const emitEvent = (event, data) => {
+        const dgram_msg = {
+            event,
+            data
+        }
+        sendPacket(JSON.stringify(dgram_msg));
+    };
+
+    const moveDrone = (key, value) => {
+        var newDirection = {x: 0,y: 0,z: 0,_x: 0,_y: 0,_z: 0};
+        if(key) {
+            newDirection = {...direction}
+            newDirection[key] = value;
+        }
+        setDirection(newDirection);
+        emitEvent('cmd_vel', {copterId: props.device.copter_id, linear: {x: newDirection['x'], y: newDirection['y'], z: newDirection['z']}, radial: {_x: newDirection['x'], _y: newDirection['y'], _z: newDirection['z']}});
+    };
+
 
     return (
         <ScrollView style={styles.container}>
@@ -47,21 +69,21 @@ export default function RemoteController(props) {
                 <Text>Reply from server</Text>
                 <Text>{serverReply}</Text>
             </View>
-            <View style={{ marginTop: 15 }}>
+            {/*<View style={{ marginTop: 15 }}>
                 <Button title="SET MODE" onPress={() => sendPacket('set_mode')} />
-            </View>
+            </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={styles.row_buttons}>
-                    <Button title="ARM" onPress={() => sendPacket('arming')} />
+                    <Button title="ARM" onPress={() => emitEvent('arm', {copterId: props.device.copter_id})} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="LAND" onPress={() => sendPacket('land')} />
+                    <Button title="LAND" onPress={() => emitEvent('land', {copterId: props.device.copter_id, latitude, longitude, altitude: 0})} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="TAKE-OFF" onPress={() => sendPacket('takeoff')} />
+                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', {copterId: props.device.copter_id, latitude, longitude, altitude: 40})} />
                 </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
+            {/*<View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={styles.row_buttons}>
                     <Button title="SET" onPress={() => sendPacket('set')} />
                 </View>
@@ -71,31 +93,34 @@ export default function RemoteController(props) {
                 <View style={styles.row_buttons}>
                     <Button title="RESET" onPress={() => sendPacket('reset')} />
                 </View>
-            </View>
+            </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
                 <View style={styles.row_buttons}>
-                    <Button title="UP" onPress={() => sendPacket('delete')} />
+                    <Button title="UP" onPress={() => moveDrone('y', 0.5)} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={[styles.row_buttons, styles.left_row_button]}>
-                    <Button title="LEFT" onPress={() => sendPacket('set')} />
+                    <Button title="LEFT" onPress={() => moveDrone('x', -0.5)} />
                 </View>
                 <View style={[styles.row_buttons, styles.right_row_button]}>
-                    <Button title="RIGHT" onPress={() => sendPacket('reset')} />
+                    <Button title="RIGHT" onPress={() => moveDrone('x', 0.5)} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
                 <View style={styles.row_buttons}>
-                    <Button title="DOWN" onPress={() => sendPacket('delete')} />
+                    <Button title="DOWN" onPress={() => moveDrone('y', -0.5)} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={[styles.row_buttons, styles.left_row_button]}>
-                    <Button title="FORWARD" onPress={() => sendPacket('set')} />
+                <View style={[styles.row_buttons]}>
+                    <Button title="FORWARD" onPress={() => moveDrone('z', 0.5)} />
                 </View>
-                <View style={[styles.row_buttons, styles.right_row_button]}>
-                    <Button title="BACKWARD" onPress={() => sendPacket('reset')} />
+                <View style={[styles.row_buttons]}>
+                    <Button title="STOP" onPress={() => moveDrone(null, null)} />
+                </View>
+                <View style={[styles.row_buttons]}>
+                    <Button title="BACKWARD" onPress={() => moveDrone('z', -0.5)} />
                 </View>
             </View>
 
