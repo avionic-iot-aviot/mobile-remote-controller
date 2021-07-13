@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View, Button, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
+import _ from 'lodash';
 
 const services_ports = {
     'agri': 30000,
     'protezionecivile': 30001
 }
+
+const dateTimeOfNow = () => {
+    var timestamp = Date.now();
+    var d = new Date(timestamp);
+
+    return  ("00" + d.getDate()).slice(-2) + "-" +
+            ("00" + (d.getMonth() + 1)).slice(-2) + "-" +
+            d.getFullYear() + " " +
+            ("00" + d.getHours()).slice(-2) + ":" +
+            ("00" + d.getMinutes()).slice(-2) + ":" +
+            ("00" + d.getSeconds()).slice(-2)
+};
 
 /**
  * Creates a view where it is possible to pilot a drone. This view has many buttons that send UDP datagrams
@@ -37,11 +50,11 @@ export default function RemoteController(props) {
     }
 
     socket.once('message', function (data, rinfo) {
-        var str = String.fromCharCode.apply(null, new Uint8Array(data));
+        var data_json_str = String.fromCharCode.apply(null, new Uint8Array(data));
         console.log(
-            'Received ' + str + ' ' + JSON.stringify(rinfo),
+            'Received ' + data_json_str + ' ' + JSON.stringify(rinfo),
         );
-        setServerReply('Received ' + str + ' ' + JSON.stringify(rinfo));
+        setServerReply([JSON.parse(data_json_str), JSON.stringify(rinfo)]);
     });
 
     /**
@@ -69,7 +82,17 @@ export default function RemoteController(props) {
             newDirection[key] = value;
         }
         setDirection(newDirection);
-        emitEvent('cmd_vel', {copterId: props.device.copter_id, linear: {x: newDirection['x'], y: newDirection['y'], z: newDirection['z']}, radial: {_x: newDirection['x'], _y: newDirection['y'], _z: newDirection['z']}});
+        emitEvent('cmd_vel', { copterId, linear: { x: newDirection['x'], y: newDirection['y'], z: newDirection['z'] }, radial: { _x: newDirection['x'], _y: newDirection['y'], _z: newDirection['z'] } });
+    };
+
+    /**
+     * It prints the server reply in a way that is possible to read.
+     * @param {*} data Array containing two jsons.
+     */
+    const formatReplyMessage = (data) => {
+        if(data && data[0].event)
+            return `Message received!\nEvent: ${data[0].event}\nTime: ${dateTimeOfNow()}`;
+        return "Connected";
     };
 
 
@@ -78,22 +101,18 @@ export default function RemoteController(props) {
             <View style={styles.align_center}>
                 <Text style={styles.title}>{props.device.current_name}</Text>
             </View>
-            <View style={styles.align_center}>
-                <Text>Reply from server</Text>
-                <Text>{serverReply}</Text>
-            </View>
             {/*<View style={{ marginTop: 15 }}>
                 <Button title="SET MODE" onPress={() => sendPacket('set_mode')} />
             </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={styles.row_buttons}>
-                    <Button title="ARM" onPress={() => emitEvent('arm', {copterId: props.device.copter_id})} />
+                    <Button title="ARM" onPress={() => emitEvent('arm', { copterId })} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="LAND" onPress={() => emitEvent('land', {copterId: props.device.copter_id, latitude, longitude, altitude: 0})} />
+                    <Button title="LAND" onPress={() => emitEvent('land', { copterId, latitude, longitude, altitude: 0 })} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', {copterId: props.device.copter_id, latitude, longitude, altitude: 40})} />
+                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude: 40 })} />
                 </View>
             </View>
             {/*<View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -109,7 +128,7 @@ export default function RemoteController(props) {
             </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
                 <View style={styles.row_buttons}>
-                    <Button title="UP" onPress={() => moveDrone('y', 0.5)} />
+                    <Button title="UP" onPress={() => moveDrone('z', 0.5)} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -122,22 +141,29 @@ export default function RemoteController(props) {
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 , justifyContent: "center"}}>
                 <View style={styles.row_buttons}>
-                    <Button title="DOWN" onPress={() => moveDrone('y', -0.5)} />
+                    <Button title="DOWN" onPress={() => moveDrone('z', -0.5)} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={[styles.row_buttons]}>
-                    <Button title="FORWARD" onPress={() => moveDrone('z', 0.5)} />
+                    <Button title="FORWARD" onPress={() => moveDrone('y', 0.5)} />
                 </View>
                 <View style={[styles.row_buttons]}>
                     <Button title="STOP" onPress={() => moveDrone(null, null)} />
                 </View>
                 <View style={[styles.row_buttons]}>
-                    <Button title="BACKWARD" onPress={() => moveDrone('z', -0.5)} />
+                    <Button title="BACKWARD" onPress={() => moveDrone('y', -0.5)} />
                 </View>
             </View>
 
             <View style={{marginBottom: 30}} />
+
+            <View style={styles.align_center}>
+                <Text style={{fontWeight: "bold"}}>Reply from server</Text>
+                <Text style={{textAlign: "center"}}>{formatReplyMessage(serverReply)}</Text>
+            </View>
+
+            <View style={{ marginBottom: 30 }} />
 
             <View style={styles.button}>
                 <Button title="Back to list" onPress={props.returnToList} />
