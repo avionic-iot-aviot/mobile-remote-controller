@@ -159,6 +159,7 @@ export default function RemoteController(props) {
         const newVelocityMap = setVelocityMapValue(key, value, true);
         try {
             if (moveDroneInterval === null) {
+                emitEvent('arm', { copterId }); // this will force arming the drone and will change the mode of the drone in "GUIDED", needed to pilot it
                 var interval = setInterval(() => emitEvent('cmd_vel', { copterId, linear: { x: newVelocityMap['x'], y: newVelocityMap['y'], z: newVelocityMap['z'] }, radial: { _x: newVelocityMap['_x'], _y: newVelocityMap['_y'], _z: newVelocityMap['_z'] } }), 1000 / MESSAGES_PER_SECOND);
                 setMoveDroneInterval(interval);
                 console.log("Created interval");
