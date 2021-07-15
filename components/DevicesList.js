@@ -52,7 +52,7 @@ export default function DevicesList(props) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
-        keyExtractor={(item) => item.device_id}
+        keyExtractor={(item) => item.device_id.toString()}
         renderItem={renderItem}
         extraData={selectedDevice}
       />

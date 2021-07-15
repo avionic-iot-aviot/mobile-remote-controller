@@ -3,10 +3,11 @@ import { Button, View } from 'react-native';
 import DevicesList from './components/DevicesList'
 import RemoteController from './components/RemoteController';
 
-
 import dgram from 'react-native-udp'
 const socket = dgram.createSocket('udp4');
 socket.bind(12346);
+
+
 export default function App() {
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [selectedNamespace, setSelectedNamespace] = useState(null);
