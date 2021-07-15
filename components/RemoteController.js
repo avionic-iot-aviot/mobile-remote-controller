@@ -59,9 +59,9 @@ export default function RemoteController(props) {
 
     socket.once('message', function (data, rinfo) {
         var data_json_str = String.fromCharCode.apply(null, new Uint8Array(data));
-        /*console.log(
+        console.log(
             'Received ' + data_json_str + ' ' + JSON.stringify(rinfo),
-        );*/
+        );
         setServerReply([JSON.parse(data_json_str), JSON.stringify(rinfo)]);
         socket.removeAllListeners();
     });
@@ -86,7 +86,7 @@ export default function RemoteController(props) {
      */
     const setVelocityMapValue = (key, value, mustCheck) => {
         if (mustCheck)
-            onCheckLimit(value);
+            value = onCheckLimit(value);
         var newVelocityMap = _.cloneDeep(velocityMap);
         if (key) {
             newVelocityMap[key] = value;
@@ -215,12 +215,21 @@ export default function RemoteController(props) {
      * @param {*} newVelocity 
      */
     const onCheckLimit = (newVelocity) => {
-        if (newVelocity < 0.1) {
-            newVelocity = 0.1;
-        } else if (newVelocity > 3) {
-            newVelocity = 3;
+        if (newVelocity >= 0) {
+            if (newVelocity < 0.1) {
+                newVelocity = 0.1;
+            } else if (newVelocity > 3) {
+                newVelocity = 3;
+            }
+        } else {
+            if (newVelocity > -0.1) {
+                newVelocity = -0.1;
+            } else if (newVelocity < -3) {
+                newVelocity = -3;
+            }
         }
-        setVelocity(newVelocity);
+        setVelocity(Math.abs(newVelocity));
+        return newVelocity;
     }
 
 
