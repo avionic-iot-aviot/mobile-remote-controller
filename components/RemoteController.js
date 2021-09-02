@@ -285,7 +285,7 @@ export default function RemoteController(props) {
             </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15, justifyContent: "center" }}>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'up' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'up', 'z', velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'up', 'z', -velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
                         <Text style={button_styles.text}>UP</Text>
                     </TouchableWithoutFeedback>
                 </View>
@@ -304,7 +304,7 @@ export default function RemoteController(props) {
             </View>
             <View style={{ flexDirection: "row", marginTop: 15, justifyContent: "center" }}>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'down' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'down', 'z', -velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'down', 'z', velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
                         <Text style={button_styles.text}>DOWN</Text>
                     </TouchableWithoutFeedback>
                 </View>
