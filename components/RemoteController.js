@@ -258,7 +258,7 @@ export default function RemoteController(props) {
             </View>
             <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 1 }}>
                 <View style={[styles.row_buttons, { width: "66%", justifyContent: 'center' }]}>
-                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>SET TAKE-OFF ALTITUDE</Text>
+                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>SET TAKE-OFF ABSOLUTE ALTITUDE</Text>
                 </View>
                 <View style={styles.row_buttons}>
                     <TextInput onChangeText={(value) => setAltitude(value)} value={altitude.toString()} keyboardType="numeric" style={{ borderLeftWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
