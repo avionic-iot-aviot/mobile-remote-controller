@@ -1,21 +1,4 @@
 {
-  "name": "remote-udp-controller",
-  "displayName": "remote-udp-controller",
-  "expo": {
-    "name": "remote-udp-controller",
-    "slug": "remote-udp-controller",
-    "version": "1.0.0",
-    "sdkVersion": "41.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "android": {
-      "package": "com.marco_cavalli.udpapp"
-    },
-    "ios": {
-      "bundleIdentifier": "udpapp"
-    }
-  }
+  "name": "mobileRemoteController",
+  "displayName": "mobileRemoteController"
 }
