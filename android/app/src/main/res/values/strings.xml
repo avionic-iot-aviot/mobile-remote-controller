@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resources>
-  <string name="app_name">udp-app</string>
+  <string name="app_name">remote-udp-controller</string>
 </resources>

@@ -66,6 +66,6 @@
     <key>UIRequiresFullScreen</key>
     <true/>
     <key>CFBundleDisplayName</key>
-    <string>udp-app</string>
+    <string>remote-udp-controller</string>
   </dict>
 </plist>

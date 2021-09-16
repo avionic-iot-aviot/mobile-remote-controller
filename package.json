@@ -26,6 +26,6 @@
     "eject": "expo eject"
   },
   "private": true,
-  "name": "udp-app",
+  "name": "remote-udp-controller",
   "version": "1.0.0"
 }

@@ -1,9 +1,9 @@
 {
-  "name": "udp-app",
-  "displayName": "udp-app",
+  "name": "remote-udp-controller",
+  "displayName": "remote-udp-controller",
   "expo": {
-    "name": "udp-app",
-    "slug": "udp-app",
+    "name": "remote-udp-controller",
+    "slug": "remote-udp-controller",
     "version": "1.0.0",
     "sdkVersion": "41.0.0",
     "platforms": [
