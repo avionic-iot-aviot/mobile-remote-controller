@@ -253,15 +253,15 @@ export default function RemoteController(props) {
                     <Button title="LAND" onPress={() => emitEvent('land', { copterId, latitude, longitude, altitude: 0 })} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude })} />
+                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude: 1 })} />
                 </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 1 }}>
+            <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 0 }}>
                 <View style={[styles.row_buttons, { width: "66%", justifyContent: 'center' }]}>
-                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>SET TAKE-OFF ABSOLUTE ALTITUDE</Text>
+                    <Button title="SET ABSOLUTE ALTITUDE" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude })} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <TextInput onChangeText={(value) => setAltitude(value)} value={altitude.toString()} keyboardType="numeric" style={{ borderLeftWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
+                    <TextInput onChangeText={(value) => setAltitude(value)} value={altitude.toString()} keyboardType="numeric" style={{ borderWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 1 }}>
@@ -272,33 +272,32 @@ export default function RemoteController(props) {
                     <TextInput onChangeText={(value) => setVelocity(value)} value={velocity.toString()} keyboardType="numeric" style={{ borderLeftWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
                 </View>
             </View>
-            {/*<View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={styles.row_buttons}>
-                    <Button title="SET" onPress={() => sendPacket('set')} />
-                </View>
-                <View style={styles.row_buttons}>
-                    <Button title="DELETE" onPress={() => sendPacket('delete')} />
-                </View>
-                <View style={styles.row_buttons}>
-                    <Button title="RESET" onPress={() => sendPacket('reset')} />
-                </View>
-            </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15, justifyContent: "center" }}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: xDirection === 'rleft' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('_x', 'rleft', '_x', -velocity)} onPressOut={() => clearDroneVelocity('_x', '_x')}>
+                        <Text style={button_styles.text}>ROTATE L</Text>
+                    </TouchableWithoutFeedback>
+                </View>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'up' ? "darkblue" : "#2196F3" }} >
                     <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'up', 'z', -velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
                         <Text style={button_styles.text}>UP</Text>
+                    </TouchableWithoutFeedback>
+                </View>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: xDirection === 'rright' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('_x', 'rright', '_x', velocity)} onPressOut={() => clearDroneVelocity('_x', '_x')}>
+                        <Text style={button_styles.text}>ROTATE R</Text>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: xDirection === 'left' ? "darkblue" : "#2196F3" }} >
                     <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'left', 'x', -velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
-                        <Text style={button_styles.text}>LEFT</Text>
+                        <Text style={button_styles.text}>SIDEWAY   LEFT</Text>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.right_row_button, backgroundColor: xDirection === 'right' ? "darkblue" : "#2196F3" }} >
                     <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'right', 'x', velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
-                        <Text style={button_styles.text}>RIGHT</Text>
+                        <Text style={button_styles.text}>SIDEWAY RIGHT</Text>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
