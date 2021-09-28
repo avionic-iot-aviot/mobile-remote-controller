@@ -131,6 +131,7 @@ export default function RemoteController(props) {
      */
     const setDroneVelocity = (axis, direction, key, value) => {
         emitEvent('arm', { copterId }); // this will force arming the drone and will change the mode of the drone in "GUIDED", needed to pilot it
+        console.log(axis, direction, key, value);
         switch (axis) {
             case 'x':
                 if (direction === xDirection) {
@@ -158,7 +159,7 @@ export default function RemoteController(props) {
                 break;
             case '_z':
                 if (direction === _zDirection) {
-                    setZDirection('none');
+                    set_ZDirection('none');
                     value = 0;
                 } else {
                     set_ZDirection(direction);
@@ -169,7 +170,7 @@ export default function RemoteController(props) {
         const newVelocityMap = setVelocityMapValue(key, value, true);
         try {
             if (moveDroneInterval === null) {
-                var interval = setInterval(() => emitEvent('cmd_vel', { copterId, linear: { x: newVelocityMap['x'], y: newVelocityMap['y'], z: newVelocityMap['z'] }, radial: { _x: newVelocityMap['_x'], _y: newVelocityMap['_y'], _z: newVelocityMap['_z'] } }), 1000 / MESSAGES_PER_SECOND);
+                var interval = setInterval(() => emitEvent('cmd_vel', { copterId, linear: { x: newVelocityMap['x'], y: newVelocityMap['y'], z: newVelocityMap['z'] }, angular: { x: newVelocityMap['_x'], y: newVelocityMap['_y'], z: newVelocityMap['_z'] } }), 1000 / MESSAGES_PER_SECOND);
                 setMoveDroneInterval(interval);
                 console.log("Created interval");
             }
@@ -228,7 +229,7 @@ export default function RemoteController(props) {
      * @param {*} newVelocity 
      */
     const onCheckLimit = (newVelocity) => {
-        if (newVelocity >= 0) {
+        /*if (newVelocity >= 0) {
             if (newVelocity < 0.1) {
                 newVelocity = 0.1;
             } else if (newVelocity > 3) {
@@ -240,7 +241,7 @@ export default function RemoteController(props) {
             } else if (newVelocity < -3) {
                 newVelocity = -3;
             }
-        }
+        }*/
         setVelocity(Math.abs(newVelocity));
         return newVelocity;
     }
@@ -303,13 +304,13 @@ export default function RemoteController(props) {
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: xDirection === 'left' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'left', 'x', -velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: yDirection === 'left' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('y', 'left', 'y', -velocity)} onPressOut={() => clearDroneVelocity('y', 'y')}>
                         <Text style={button_styles.text}>SIDEWAY   LEFT</Text>
                     </TouchableWithoutFeedback>
                 </View>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.right_row_button, backgroundColor: xDirection === 'right' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'right', 'x', velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.right_row_button, backgroundColor: yDirection === 'right' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('y', 'right', 'y', velocity)} onPressOut={() => clearDroneVelocity('y', 'y')}>
                         <Text style={button_styles.text}>SIDEWAY RIGHT</Text>
                     </TouchableWithoutFeedback>
                 </View>
@@ -322,15 +323,15 @@ export default function RemoteController(props) {
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: yDirection === 'forward' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('y', 'forward', 'y', velocity)} onPressOut={() => clearDroneVelocity('y', 'y')}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'forward' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'forward', 'x', velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
                         <Text style={button_styles.text}>FORWARD</Text>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={[styles.row_buttons]}>
                 </View>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: yDirection === 'backward' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('y', 'backward', 'y', -velocity)} onPressOut={() => clearDroneVelocity('y', 'y')}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'backward' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'backward', 'x', -velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
                         <Text style={button_styles.text}>BACKWARD</Text>
                     </TouchableWithoutFeedback>
                 </View>
