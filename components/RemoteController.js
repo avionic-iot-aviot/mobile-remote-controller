@@ -292,9 +292,9 @@ export default function RemoteController(props) {
                         <Text style={button_styles.text}>ROTATE L</Text>
                     </TouchableWithoutFeedback>
                 </View>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'up' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'up', 'z', -velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
-                        <Text style={button_styles.text}>UP</Text>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'forward' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'forward', 'x', velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
+                        <Text style={button_styles.text}>FORWARD</Text>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, ...styles.left_row_button, backgroundColor: _zDirection === 'rright' ? "darkblue" : "#2196F3" }} >
@@ -316,23 +316,23 @@ export default function RemoteController(props) {
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15, justifyContent: "center" }}>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'down' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'down', 'z', velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
-                        <Text style={button_styles.text}>DOWN</Text>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'backward' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'backward', 'x', -velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
+                        <Text style={button_styles.text}>BACKWARD</Text>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'forward' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'forward', 'x', velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
-                        <Text style={button_styles.text}>FORWARD</Text>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'up' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'up', 'z', -velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
+                        <Text style={button_styles.text}>UP</Text>
                     </TouchableWithoutFeedback>
                 </View>
                 <View style={[styles.row_buttons]}>
                 </View>
-                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: xDirection === 'backward' ? "darkblue" : "#2196F3" }} >
-                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('x', 'backward', 'x', -velocity)} onPressOut={() => clearDroneVelocity('x', 'x')}>
-                        <Text style={button_styles.text}>BACKWARD</Text>
+                <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'down' ? "darkblue" : "#2196F3" }} >
+                    <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'down', 'z', velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
+                        <Text style={button_styles.text}>DOWN</Text>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
