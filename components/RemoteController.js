@@ -4,11 +4,6 @@ import _ from 'lodash';
 
 const MESSAGES_PER_SECOND = 3;
 
-const services_ports = {
-    'agri': 30000,
-    'protezionecivile': 30001
-}
-
 const dateTimeOfNow = () => {
     var timestamp = Date.now();
     var d = new Date(timestamp);
@@ -49,7 +44,7 @@ export default function RemoteController(props) {
      */
     const sendPacket = (msg) => {
         try {
-            socket.send(`${msg}`, undefined, undefined, services_ports[props.namespace], `udp.${props.namespace}.aviot.it`, function (err) {
+            socket.send(`${msg}`, undefined, undefined, props.port, `udp.${props.namespace}.aviot.it`, function (err) {
                 if (err) throw err
                 console.log('Message sent!');
             });
@@ -63,7 +58,11 @@ export default function RemoteController(props) {
         console.log(
             'Received ' + data_json_str + ' ' + JSON.stringify(rinfo),
         );
-        setServerReply([JSON.parse(data_json_str), JSON.stringify(rinfo)]);
+        try {
+            setServerReply([JSON.parse(data_json_str), JSON.stringify(rinfo)]);
+        } catch(err) {
+            console.log("Message ERROR: ", err);
+        }
         socket.removeAllListeners();
     });
 
