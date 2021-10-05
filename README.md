@@ -6,7 +6,7 @@ Remote controller app (Android and iOS) for drones pilotage.
 
 You need to follow the following steps:
 - Install openjdk 1.11.0 (consider to use <a href="https://github.com/shyiko/jabba">jabba</a>)
-- Install nvm 12 or higher (consider to use <a href="https://github.com/nvm-sh/nvm">nvm</a>
+- Install node 12 or higher (consider to use <a href="https://github.com/nvm-sh/nvm">nvm</a>)
 - Run "npm install" in main folder
 - Run "npm install -g expo-cli"
 - Install "adb"
