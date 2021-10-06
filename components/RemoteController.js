@@ -60,7 +60,7 @@ export default function RemoteController(props) {
         );
         try {
             setServerReply([JSON.parse(data_json_str), JSON.stringify(rinfo)]);
-        } catch(err) {
+        } catch (err) {
             console.log("Message ERROR: ", err);
         }
         socket.removeAllListeners();
@@ -259,8 +259,7 @@ export default function RemoteController(props) {
             </View>*/}
             <View style={{ flexDirection: "row", marginTop: 15 }}>
                 <View style={styles.row_buttons}>
-                    {/* <Button title="ARM" onPress={() => emitEvent('arm', { copterId })} /> */}
-                    <Button title="STOP" onPress={() => stopDrone()} />
+                    <Button title="ARM" onPress={() => emitEvent('arm', { copterId })} />
                 </View>
                 <View style={styles.row_buttons}>
                     <Button title="LAND" onPress={() => emitEvent('land', { copterId, latitude, longitude, altitude: 0 })} />
@@ -327,7 +326,8 @@ export default function RemoteController(props) {
                         <Text style={button_styles.text}>UP</Text>
                     </TouchableWithoutFeedback>
                 </View>
-                <View style={[styles.row_buttons]}>
+                <View style={{ ...button_styles.button, ...styles.row_buttons }}>
+                    <Button title="STOP" onPress={() => stopDrone()} />
                 </View>
                 <View style={{ ...button_styles.button, ...styles.row_buttons, backgroundColor: zDirection === 'down' ? "darkblue" : "#2196F3" }} >
                     <TouchableWithoutFeedback onPressIn={() => setDroneVelocity('z', 'down', 'z', velocity)} onPressOut={() => clearDroneVelocity('z', 'z')}>
