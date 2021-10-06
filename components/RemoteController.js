@@ -129,7 +129,7 @@ export default function RemoteController(props) {
      * @param {*} value The velocity value
      */
     const setDroneVelocity = (axis, direction, key, value) => {
-        emitEvent('arm', { copterId }); // this will force arming the drone and will change the mode of the drone in "GUIDED", needed to pilot it
+        //emitEvent('arm', { copterId }); // this will force arming the drone and will change the mode of the drone in "GUIDED", needed to pilot it
         console.log(axis, direction, key, value);
         switch (axis) {
             case 'x':
