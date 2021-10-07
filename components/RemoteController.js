@@ -265,15 +265,16 @@ export default function RemoteController(props) {
                     <Button title="LAND" onPress={() => emitEvent('land', { copterId, latitude, longitude, altitude: 0 })} />
                 </View>
                 <View style={styles.row_buttons}>
-                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude: 1 })} />
+                    <Button title="TAKE-OFF" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude })} />
                 </View>
             </View>
-            <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 0 }}>
+            <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 1 }}>
                 <View style={[styles.row_buttons, { width: "66%", justifyContent: 'center' }]}>
-                    <Button title="SET ABSOLUTE ALTITUDE" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude })} />
+                    <Text style={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}>SET ABSOLUTE ALTITUDE</Text>
+                    {/* <Button title="SET ABSOLUTE ALTITUDE" onPress={() => emitEvent('takeoff', { copterId, latitude, longitude, altitude })} /> */}
                 </View>
                 <View style={styles.row_buttons}>
-                    <TextInput onChangeText={(value) => setAltitude(value)} value={altitude.toString()} keyboardType="numeric" style={{ borderWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
+                    <TextInput onChangeText={(value) => setAltitude(value)} value={altitude.toString()} keyboardType="numeric" style={{ borderLeftWidth: 1, paddingTop: 3, paddingBottom: 2, textAlign: 'center' }} />
                 </View>
             </View>
             <View style={{ flexDirection: "row", marginTop: 15, borderWidth: 1 }}>
